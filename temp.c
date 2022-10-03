@@ -259,7 +259,7 @@ BinaryTreeNode *INSUC(BinaryTreeNode *alpha)
     // of node alpha in an inorder threaded binary tree.
 
     BinaryTreeNode *beta = alpha->RSON;
-    if (alpha->RTAG == 1)
+    if (alpha->LTAG == 1)
     {
         while (beta->LTAG == 1)
         {
@@ -343,7 +343,7 @@ BinaryTreeNode *POSTSUC(BinaryTreeNode *alpha)
 
     // Alpha is in the left subtree of ancestorNode.
     BinaryTreeNode *parentNode = NULL;
-    if (ancestorNode->RSON == alpha)
+    if (ancestorNode->RSON == ancestorNode)
     {
         parentNode = ancestorNode;
     }
@@ -364,12 +364,7 @@ BinaryTreeNode *POSTSUC(BinaryTreeNode *alpha)
 
     // Get the postorder successor node.
     BinaryTreeNode *postSucNode = NULL;
-    if (parentNode->RSON == alpha && parentNode->DATA != -1)
-    {
-        postSucNode = parentNode;
-        return postSucNode;
-    }
-    else if (parentNode->RSON == parentNode && parentNode->LSON == alpha)
+    if (parentNode->RSON == alpha)
     {
         postSucNode = parentNode;
         return postSucNode;
@@ -377,6 +372,7 @@ BinaryTreeNode *POSTSUC(BinaryTreeNode *alpha)
     else
     {
         BinaryTreeNode *tempNode = parentNode;
+
         while (tempNode->RTAG == 1)
         {
             tempNode = tempNode->RSON;
