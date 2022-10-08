@@ -45,17 +45,38 @@ void EQUIVALENCE()
 
     // get size of S
     scanf("%d\n", &n);
+    SIZE = n + 1;
 
-    /*
-    //Initialize FATHER array
-    */
+    // Initialize FATHER array
+    FATHER = malloc(sizeof(int) * n + 1);
+    for (int i = 0; i < n + 1; i++)
+    {
+        FATHER[i] = 0;
+    }
+
     scanf("%d %d\n", &i, &j);
-    while (i != 0 && j != 0)
+    while (i != 0)
     {
         /*
         Implement the equivalence pseudocode of Quiwa Book of your choice.
-    You may need to create and call FIND and UNION functions.
+        You may need to create and call FIND and UNION functions.
         */
+
+        while (FATHER[i] > 0)
+        {
+            i = FATHER[i];
+        }
+
+        while (FATHER[j] > 0)
+        {
+            j = FATHER[j];
+        }
+
+        if (i != j)
+        {
+            FATHER[i] = j;
+        }
+
         scanf("%d %d\n", &i, &j);
     }
 
@@ -74,6 +95,14 @@ int NUM_EQUI_CLASSES()
     Determine the number of equivalence classes.
     Store it in numEquiClasses variable.
     **/
+
+    for (int i = 0; i < SIZE; i++)
+    {
+        if (FATHER[i] == 0 && i != 0)
+        {
+            numEquiClasses += 1;
+        }
+    }
 
     return numEquiClasses;
 }

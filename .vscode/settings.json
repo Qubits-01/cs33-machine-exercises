@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "binarytreenode",
+        "EQUI",
         "INORDER",
         "INPRED",
         "INSUC",
@@ -8,6 +9,7 @@
         "LTAG",
         "POSTSUC",
         "PRESUC",
+        "QUIWA",
         "RTAG"
     ]
 }
