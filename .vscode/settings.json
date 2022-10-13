@@ -2,6 +2,8 @@
     "cSpell.words": [
         "binarytreenode",
         "EQUI",
+        "heapified",
+        "HEAPIFY",
         "INORDER",
         "INPRED",
         "INSUC",
@@ -9,6 +11,7 @@
         "LTAG",
         "POSTSUC",
         "PRESUC",
+        "priorityqueue",
         "QUIWA",
         "RTAG"
     ]
