@@ -43,11 +43,14 @@ int main()
 
     CREATE_PQ(&HuffmanCode);
     HuffmanRoot = BUILD_HUFFMAN_TREE(HuffmanCode);
+
     int *code = (int *)malloc(HuffmanCode->capacity * sizeof(int));
     PRINT_HUFFMAN_CODE(HuffmanRoot, code, 0);
+
     FREE_TREE(HuffmanRoot);
     FREE_PQ(HuffmanCode);
     free(code);
+
     return 0;
 }
 
@@ -206,18 +209,18 @@ void PQ_INSERT(PriorityQueue *P, BinaryTreeNode *x)
     Write code here.
     */
 
-    P->size = (P->size) + 1;
+    P->size = P->size + 1;
     int i = P->size - 1;
-    int j = i / 2;
+    int j = (i - 1) / 2;
 
-    while ((i > 0) && ((P->array)[j]->FREQ > x->FREQ))
+    while ((i > 0) && (P->array[j]->FREQ > x->FREQ))
     {
-        (P->array)[i] = (P->array)[j];
+        P->array[i] = P->array[j];
         i = j;
-        j = i / 2;
+        j = (i - 1) / 2;
     }
 
-    (P->array)[i] = x;
+    P->array[i] = x;
 
     return;
 }
@@ -244,10 +247,10 @@ BinaryTreeNode *PQ_EXTRACT(PriorityQueue *P)
     call HEAPIFY (P, 1)
     */
 
-    x = (P->array)[0];
-    (P->array)[0] = (P->array)[(P->size) - 1];
-    P->size = (P->size) - 1;
-    HEAPIFY(P, 1);
+    x = P->array[0];
+    P->array[0] = P->array[P->size - 1];
+    P->size = P->size - 1;
+    HEAPIFY(P, 0);
 
     return x;
 }
@@ -280,22 +283,23 @@ void HEAPIFY(PriorityQueue *P, int r)
     end HEAPIFY
     */
 
-    int k = (P->array)[r - 1]->FREQ;
-    int i = r - 1;
-    int j = 2 * i;
+    // Break.
 
-    while (j <= P->size - 1)
+    BinaryTreeNode *temp = P->array[r];
+    int k = P->array[r]->FREQ;
+    int i = r;
+    int j = (2 * i) + 1;
+
+    while (j < P->size)
     {
-        if ((j < P->size) && (((P->array)[j + 1]->FREQ) < ((P->array)[j]->FREQ)))
-        {
+        if ((j < P->size - 1) && (P->array[j + 1]->FREQ < P->array[j]->FREQ))
             j++;
-        }
 
-        if ((P->array)[j]->FREQ < k)
+        if (P->array[j]->FREQ < k)
         {
-            (P->array)[i]->FREQ = (P->array)[j]->FREQ;
+            P->array[i] = P->array[j];
             i = j;
-            j = 2 * i;
+            j = (2 * i) + 1;
         }
         else
         {
@@ -303,7 +307,7 @@ void HEAPIFY(PriorityQueue *P, int r)
         }
     }
 
-    (P->array)[i]->FREQ = k;
+    P->array[i] = temp;
 }
 
 /*
@@ -327,18 +331,14 @@ BinaryTreeNode *BUILD_HUFFMAN_TREE(PriorityQueue *P)
     */
 
     int n = P->size;
-    for (int i = 0; i < n - 2; i++)
+
+    for (int i = 0; i < (n - 1); i++)
     {
-        BinaryTreeNode *z = malloc(sizeof(BinaryTreeNode));
-        BinaryTreeNode *x = NULL;
-        BinaryTreeNode *y = NULL;
-
+        BinaryTreeNode *z = (BinaryTreeNode *)malloc(sizeof(BinaryTreeNode));
         z->LSON = PQ_EXTRACT(P);
-        x = z->LSON;
         z->RSON = PQ_EXTRACT(P);
-        y = z->RSON;
+        z->FREQ = z->LSON->FREQ + z->RSON->FREQ;
 
-        z->FREQ = x->FREQ + y->FREQ;
         PQ_INSERT(P, z);
     }
 
