@@ -50,6 +50,7 @@ int main()
     Graph *G;
     G = read_input();
     PRIM(G, 1);
+
     // Assume that Vertex 1 is always start vertex/root of MST
     DISPLAY_MST(G);
 
@@ -109,16 +110,21 @@ void PRIM(Graph *G, int s)
     // Implement this function
 
     PriorityQueue *PQ = (PriorityQueue *)malloc(sizeof(PriorityQueue));
+    PQ->heap = (int *)malloc((G->N + 1) * sizeof(int));
+    PQ->index = (int *)malloc((G->N + 1) * sizeof(int));
+    PQ->key = (int *)malloc((G->N + 1) * sizeof(int));
+
     InitPQ(G, PQ, s);
     G->pred[s] = 0;
+    int j;
 
     // Generate minimum-cost spanning tree.
-    while (!(IsEmptyPQ(PQ)))
+    while (IsEmptyPQ(PQ) == 0)
     {
-        int j = EXTRACT_MIN(PQ);
-        PQ->key[j] = infty;
-
+        j = EXTRACT_MIN(PQ);
+        PQ->key[j] = -1 * infty;
         Edge *alpha = G->LIST[j];
+
         while (alpha != NULL)
         {
             int l = alpha->VRTX;
@@ -146,7 +152,7 @@ void InitPQ(Graph *G, PriorityQueue *PQ, int s)
         {
             PQ->heap[1] = s;
             PQ->index[s] = 1;
-            PQ->key[s] = infty;
+            PQ->key[s] = -1 * infty;
         }
         else
         {
@@ -170,8 +176,8 @@ int IsEmptyPQ(PriorityQueue *PQ)
 int EXTRACT_MIN(PriorityQueue *PQ)
 {
     // Implement this function
-
     int j;
+
     if (PQ->size == 0)
     {
         PQ_UNDERFLOW();
@@ -191,7 +197,6 @@ int EXTRACT_MIN(PriorityQueue *PQ)
 void HEAPIFY(PriorityQueue *PQ, int r)
 {
     // Implement this function
-
     int k = PQ->key[PQ->heap[r]];
     int l = PQ->heap[r];
     int i = r;
@@ -234,7 +239,7 @@ void DECREASE_KEY(PriorityQueue *PQ, int l, int newkey)
         PQ->heap[i] = PQ->heap[j];
         PQ->index[PQ->heap[j]] = i;
         i = j;
-        j = 1 / 2;
+        j = i / 2;
     }
 
     PQ->heap[i] = l;

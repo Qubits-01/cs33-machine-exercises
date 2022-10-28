@@ -31,37 +31,36 @@ struct graph
 
 Graph *read_input();
 void PRIM(Graph *, int);
-void InitPQ (Graph *, PriorityQueue *, int);
+void InitPQ(Graph *, PriorityQueue *, int);
 int IsEmptyPQ(PriorityQueue *);
-int EXTRACT_MIN (PriorityQueue *);
-void HEAPIFY (PriorityQueue *, int);
-void DECREASE_KEY (PriorityQueue *, int, int);
-void DISPLAY_MST (Graph *);
+int EXTRACT_MIN(PriorityQueue *);
+void HEAPIFY(PriorityQueue *, int);
+void DECREASE_KEY(PriorityQueue *, int, int);
+void DISPLAY_MST(Graph *);
 
 // Utilities
-void PRINT_LIST (Edge *);
-void FREE_LIST (Edge *);
-void FREE_GRAPH (Graph *);
-void FREE_PQ (PriorityQueue *);
+void PRINT_LIST(Edge *);
+void FREE_LIST(Edge *);
+void FREE_GRAPH(Graph *);
+void FREE_PQ(PriorityQueue *);
 void PQ_UNDERFLOW();
-
 
 int main()
 {
     Graph *G;
     G = read_input();
-    PRIM (G, 1);
+    PRIM(G, 1);
     // Assume that Vertex 1 is always start vertex/root of MST
     DISPLAY_MST(G);
-    
-    FREE_GRAPH (G);
-    
-    return(0);
+
+    FREE_GRAPH(G);
+
+    return (0);
 }
 
-Edge *create_edge (int vrtx, int cost)
+Edge *create_edge(int vrtx, int cost)
 {
-    Edge *temp = (Edge *) malloc (sizeof(Edge));
+    Edge *temp = (Edge *)malloc(sizeof(Edge));
     temp->VRTX = vrtx;
     temp->COST = cost;
     temp->NEXT = NULL;
@@ -70,11 +69,11 @@ Edge *create_edge (int vrtx, int cost)
 
 Graph *read_input()
 {
-    Graph *G = (Graph *) malloc (sizeof(Graph));
+    Graph *G = (Graph *)malloc(sizeof(Graph));
     scanf("%d", &(G->N));
-    
-    G->LIST = (Edge **) malloc ((G->N + 1)*sizeof(Edge *));
-    
+
+    G->LIST = (Edge **)malloc((G->N + 1) * sizeof(Edge *));
+
     int edge;
     Edge *end;
     int i, j;
@@ -99,48 +98,48 @@ Graph *read_input()
             }
         }
     }
-    
-    G->pred = (int *) malloc ((G->N + 1)*sizeof(int));
-    
+
+    G->pred = (int *)malloc((G->N + 1) * sizeof(int));
+
     return G;
 }
 
-void PRIM (Graph *G, int s)
+void PRIM(Graph *G, int s)
 {
-	//Implement this function
+    // Implement this function
     return;
 }
 
-void InitPQ (Graph *G, PriorityQueue *PQ, int s)
+void InitPQ(Graph *G, PriorityQueue *PQ, int s)
 {
-	//Implement this function
+    // Implement this function
     return;
 }
 
-int IsEmptyPQ (PriorityQueue *PQ)
+int IsEmptyPQ(PriorityQueue *PQ)
 {
     return PQ->size == 0;
 }
 
-int EXTRACT_MIN (PriorityQueue *PQ)
+int EXTRACT_MIN(PriorityQueue *PQ)
 {
-	//Implement this function  
+    // Implement this function
     return j;
 }
 
-void HEAPIFY (PriorityQueue *PQ, int r)
+void HEAPIFY(PriorityQueue *PQ, int r)
 {
-	//Implement this function
+    // Implement this function
     return;
 }
 
-void DECREASE_KEY (PriorityQueue *PQ, int l, int newkey)
+void DECREASE_KEY(PriorityQueue *PQ, int l, int newkey)
 {
-	//Implement this function
+    // Implement this function
     return;
 }
 
-void DISPLAY_MST (Graph *G)
+void DISPLAY_MST(Graph *G)
 {
     int TCost = 0;
     int l, j;
@@ -154,8 +153,8 @@ void DISPLAY_MST (Graph *G)
                 j = alpha->VRTX;
                 if (G->pred[l] == j)
                 {
-                    printf ("(%d, %d) -- %d\n", l, j, alpha->COST);
-                    TCost = TCost + alpha->COST;                    
+                    printf("(%d, %d) -- %d\n", l, j, alpha->COST);
+                    TCost = TCost + alpha->COST;
                 }
                 alpha = alpha->NEXT;
             }
@@ -165,12 +164,11 @@ void DISPLAY_MST (Graph *G)
     return;
 }
 
-
 ////
 // Utilities Section
 ////
 
-void PRINT_LIST (Edge *start)
+void PRINT_LIST(Edge *start)
 {
     Edge *current = start;
     while (current != NULL)
@@ -178,14 +176,14 @@ void PRINT_LIST (Edge *start)
         printf("(%d:%d) -> ", current->VRTX, current->COST);
         current = current->NEXT;
     }
-    
+
     return;
 }
 
 /**
 Deallocates a linked list
 **/
-void FREE_LIST (Edge *start)
+void FREE_LIST(Edge *start)
 {
     Edge *current, *obsolete;
     current = start;
@@ -198,20 +196,21 @@ void FREE_LIST (Edge *start)
     return;
 }
 
-void FREE_GRAPH (Graph *G)
+void FREE_GRAPH(Graph *G)
 {
     int i;
-    for (i = 1; i <= G->N; i++) FREE_LIST (G->LIST[i]);
-    free (G->pred);
-    free (G);
+    for (i = 1; i <= G->N; i++)
+        FREE_LIST(G->LIST[i]);
+    free(G->pred);
+    free(G);
 }
 
-void FREE_PQ (PriorityQueue *PQ)
+void FREE_PQ(PriorityQueue *PQ)
 {
     free(PQ->heap);
     free(PQ->index);
     free(PQ->key);
-    free (PQ);
+    free(PQ);
 }
 
 void PQ_UNDERFLOW(void)
@@ -219,23 +218,3 @@ void PQ_UNDERFLOW(void)
     printf("Priority Queue underflow detected.\n");
     exit(1);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
