@@ -116,7 +116,7 @@ void PRIM(Graph *G, int s)
     while (!(IsEmptyPQ(PQ)))
     {
         int j = EXTRACT_MIN(PQ);
-        PQ->key[j] = -999999999;
+        PQ->key[j] = infty;
 
         Edge *alpha = G->LIST[j];
         while (alpha != NULL)
@@ -146,14 +146,14 @@ void InitPQ(Graph *G, PriorityQueue *PQ, int s)
         {
             PQ->heap[1] = s;
             PQ->index[s] = 1;
-            PQ->key[s] = -999999999;
+            PQ->key[s] = infty;
         }
         else
         {
             i++;
             PQ->heap[i] = l;
             PQ->index[l] = i;
-            PQ->key[l] = -999999999;
+            PQ->key[l] = infty;
         }
     }
 
