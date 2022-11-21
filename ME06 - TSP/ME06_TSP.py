@@ -3,10 +3,6 @@ from sys import maxsize
 from itertools import permutations
 
 
-search_space = []
-paths = []
-
-
 def main():
     # Get the raw input.
     num_of_activities = int(input())
@@ -34,26 +30,47 @@ def main():
 
     print(graph)
 
-    visited_nodes = [False for i in range(num_of_activities)]
-    visited_nodes[0] = True
-    print(visited_nodes)
+    s = 0
+    min_path = solve_travelling_salesman_problem(graph, s, num_of_activities)
+    print(min_path)
 
-    solve_travelling_salesman_problem(graph, visited_nodes, 0, num_of_activities, 1, 0)
+    print(round(min_path[0], 3))
 
-    print(search_space)
-    print(round(min(search_space, key=lambda x: x[0]), 3))
+    print(activities[0][0])
+    for activity_index in min_path[1]:
+        print(activities[activity_index][0])
 
+    print(activities[0][0])
 
-def solve_travelling_salesman_problem(graph, visited_nodes, curr_pos, num_of_activities, count, cost):
-    if (count == num_of_activities) and graph[curr_pos][0]:
-        search_space.append((cost + graph[curr_pos][0], 42))
-        return
+def solve_travelling_salesman_problem(graph, s, no_of_activities):
+    # store all vertex apart from source vertex
+    vertex = []
+    for i in range(no_of_activities):
+        if i != s:
+            vertex.append(i)
+    print(vertex)
 
-    for i in range(num_of_activities):
-        if (visited_nodes[i] is False) and graph[curr_pos][i]:
-            visited_nodes[i] = True
-            solve_travelling_salesman_problem(graph, visited_nodes, i, num_of_activities, count + 1, cost + graph[curr_pos][i])
-            visited_nodes[i] = False
+    # store minimum weight Hamiltonian Cycle
+    min_path = maxsize
+    next_permutation = permutations(vertex)
+    # list_permutations = list(next_permutation)
+    # print(list_permutations)
+
+    for i in next_permutation:
+        # store current Path weight(cost)
+        current_pathweight = 0
+
+        # compute current path weight
+        k = s
+        for j in i:
+            current_pathweight += graph[k][j]
+            k = j
+        current_pathweight += graph[k][s]
+
+        # update minimum
+        min_path = min(min_path, current_pathweight)
+
+    return min_path, i
 
 
 def get_distance(pos1, pos2):
